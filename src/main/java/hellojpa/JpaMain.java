@@ -18,11 +18,25 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 영속
-            Member member = em.find(Member.class, 150L);
-            member.setName("IAN");
+            // 영속상태란? : 1차캐시에 해당 엔티티를 올렸을 때 부터
+//            em.persist(member); // 영속화.
 
-            System.out.println("=================");
+//            em.detach(member);  // 특정 엔티티를 준영속 상태로 만든다. (영속성 컨텍스트에서 제외)
+//            em.clear();         // 영속성 컨텍스트를 완전히 초기화 한다.
+
+            /**
+             * flush 시점도 설정을 통해 변경가능하다.
+             * FlushModeType.AUTO : 커밋이나 쿼리를 실행할 때 플러시 (기본값)
+             * FlushModeType.COMMIT : 커밋할 때만 플러시
+             */
+//            em.flush(); // 강제로 DB에 반영한다.
+
+            Member member = new Member();
+            member.setId(4L);
+            member.setUsername("d");
+            member.setRoleType(RoleType.GUEST);
+
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
