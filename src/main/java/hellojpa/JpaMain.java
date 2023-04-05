@@ -32,9 +32,7 @@ public class JpaMain {
 //            em.flush(); // 강제로 DB에 반영한다.
 
             Member member = new Member();
-            member.setId(4L);
-            member.setUsername("d");
-            member.setRoleType(RoleType.GUEST);
+            member.setUsername("C");
 
             em.persist(member);
 
