@@ -8,20 +8,17 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-//@Table(name = "TBR")    // DB의 TBR이라는 이름의 테이블과 연동
-//@SequenceGenerator(name="member_seq_generator", sequenceName = "member_seq")
-@TableGenerator(
-        name = "MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
 public class Member {
-    @Id // PK매핑
-    @GeneratedValue(strategy = GenerationType.TABLE,
-            generator = "MEMBER_SEQ_GENERATOR")
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
-
-    @Column(name = "name", updatable = false)
+    @Column(name = "USERNAME")
     private String username;
+
+    // Member 입장에서는 자신이 N이고 team이 1이기떄문에 N(주체) : 1(대상)을 @ManyToOne으로 표현한다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -37,5 +34,13 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
